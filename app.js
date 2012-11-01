@@ -21,23 +21,20 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
-  app.use(app.router);
   app.use(express.static(path.join(__dirname, '/static')));
+  app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.send(500, 'Something broke!');
+  });
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
 
 require('./db-connect');
 // models
 var models_path = __dirname + '/app/models'
     , model_files = fs.readdirSync(models_path)
 model_files.forEach(function (file) {
-    if (file == 'user.js')
-        User = require(models_path+'/'+file)
-    else
-        require(models_path+'/'+file)
+    require(models_path+'/'+file)
 })
 
 // controllers

@@ -1,6 +1,7 @@
 
 module.exports = function(app){
     var User = mongoose.model('User');
+
     app.get('/', function(req, res){
         res.render('index', {
             title : 'Index'
@@ -9,5 +10,4 @@ module.exports = function(app){
             ,message: 'hello world!'
         });
     });
-
 };
